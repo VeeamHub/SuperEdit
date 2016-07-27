@@ -91,7 +91,17 @@ namespace SuperEdit
         private void btnDirectExec_Click(object sender, EventArgs e)
         {
             var scr = String.Join("\r\n", getScriptStack());
-            res.veeamPSController.DirectExecuteBlock(scr);
+
+            try
+            {
+                res.veeamPSController.DirectExecuteBlock(scr);
+                MessageBox.Show("Executed succesfully");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("First Error occured : " + ex.Message);
+            }
+            
         }
 
         private void chkAll_CheckedChanged(object sender, EventArgs e)
