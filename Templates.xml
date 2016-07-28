@@ -1,5 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <globalTemplates>
+  <!--<objectTemplate name="Dev">
+    <objectfilter select="Name">
+      <![CDATA[
+get-service
+]]>
+    </objectfilter>
+    <template name="Do nothing">
+      <script>
+        <![CDATA[
+$empty = $null
+]]>
+      </script>
+      <values>
+        <value real="1">Enabled</value>
+        <value real="0">Disabled</value>
+      </values>
+    </template>
+  </objectTemplate>-->
+  
   <objectTemplate name="Backup VMware">
     <objectfilter select="Name">
       <![CDATA[
@@ -1231,4 +1250,6 @@ $obj | set-vbrjoboptions -Options $opt
       </values>
     </template>
   </objectTemplate>
+
+
 </globalTemplates>

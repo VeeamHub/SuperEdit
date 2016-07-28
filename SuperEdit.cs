@@ -47,9 +47,9 @@ namespace SuperEdit
             listRefresh();
         }
 
-        private List<string> getScriptStack()
+        private string getScriptStack()
         {
-            var stack = new List<string>();
+            var stack = "";
             var ot = ((ObjectTemplate)this.comboType.SelectedValue);
             var t = ((Template)this.comboTemp.SelectedValue);
 
@@ -82,25 +82,19 @@ namespace SuperEdit
             return stack;
         }
 
-        private void btnExec_Click(object sender, EventArgs e)
+        private void btnReview_Click(object sender, EventArgs e)
         {
-            var psv = new PSView(String.Join("\r\n",getScriptStack()), this.res);
+            var psv = new PSView(getScriptStack(), this.res);
             psv.ShowDialog();
         }
 
         private void btnDirectExec_Click(object sender, EventArgs e)
         {
-            var scr = String.Join("\r\n", getScriptStack());
-
-            try
-            {
-                res.veeamPSController.DirectExecuteBlock(scr);
-                MessageBox.Show("Executed succesfully");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("First Error occured : " + ex.Message);
-            }
+            var scr = getScriptStack();
+            var prg = new Progress(res);
+            prg.Show();
+            prg.exec(scr);
+            prg.Dispose();
             
         }
 
@@ -118,9 +112,12 @@ namespace SuperEdit
 
         private void thirdstateChkAll()
         {
-            chkAll.ThreeState = true;
-            chkAll.CheckState = CheckState.Indeterminate;
-            chkAll.ThreeState = false;
+            if (chkAll.Checked)
+            {
+                chkAll.ThreeState = true;
+                chkAll.CheckState = CheckState.Indeterminate;
+                chkAll.ThreeState = false;
+            }
         }
         private void dgvJobs_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -133,7 +130,7 @@ namespace SuperEdit
             if (ot != null) {
                 this.objects = res.veeamPSController.GetObjects(ot.Filter, ot.FilterSelect);
                 listRefresh();
-                thirdstateChkAll();
+                
                 comboTemp.DataSource = ot.Templates;
             }
         }

@@ -35,7 +35,7 @@ namespace SuperEdit
             this.dgvJobSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dgvJobName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comboVal = new System.Windows.Forms.ComboBox();
-            this.btnExec = new System.Windows.Forms.Button();
+            this.btnReview = new System.Windows.Forms.Button();
             this.comboTemp = new System.Windows.Forms.ComboBox();
             this.comboType = new System.Windows.Forms.ComboBox();
             this.chkAll = new System.Windows.Forms.CheckBox();
@@ -85,16 +85,16 @@ namespace SuperEdit
             this.comboVal.Size = new System.Drawing.Size(200, 21);
             this.comboVal.TabIndex = 1;
             // 
-            // btnExec
+            // btnReview
             // 
-            this.btnExec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExec.Location = new System.Drawing.Point(440, 451);
-            this.btnExec.Name = "btnExec";
-            this.btnExec.Size = new System.Drawing.Size(93, 23);
-            this.btnExec.TabIndex = 2;
-            this.btnExec.Text = "Execute";
-            this.btnExec.UseVisualStyleBackColor = true;
-            this.btnExec.Click += new System.EventHandler(this.btnExec_Click);
+            this.btnReview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnReview.Location = new System.Drawing.Point(440, 451);
+            this.btnReview.Name = "btnReview";
+            this.btnReview.Size = new System.Drawing.Size(93, 23);
+            this.btnReview.TabIndex = 2;
+            this.btnReview.Text = "Review";
+            this.btnReview.UseVisualStyleBackColor = true;
+            this.btnReview.Click += new System.EventHandler(this.btnReview_Click);
             // 
             // comboTemp
             // 
@@ -132,13 +132,12 @@ namespace SuperEdit
             // btnDirectExec
             // 
             this.btnDirectExec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDirectExec.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnDirectExec.Location = new System.Drawing.Point(539, 451);
             this.btnDirectExec.Name = "btnDirectExec";
             this.btnDirectExec.Size = new System.Drawing.Size(93, 23);
             this.btnDirectExec.TabIndex = 6;
-            this.btnDirectExec.Text = "Potential Nuke";
-            this.btnDirectExec.UseVisualStyleBackColor = false;
+            this.btnDirectExec.Text = "Execute";
+            this.btnDirectExec.UseVisualStyleBackColor = true;
             this.btnDirectExec.Click += new System.EventHandler(this.btnDirectExec_Click);
             // 
             // SuperEdit
@@ -150,7 +149,7 @@ namespace SuperEdit
             this.Controls.Add(this.chkAll);
             this.Controls.Add(this.comboType);
             this.Controls.Add(this.comboTemp);
-            this.Controls.Add(this.btnExec);
+            this.Controls.Add(this.btnReview);
             this.Controls.Add(this.comboVal);
             this.Controls.Add(this.dgvJobs);
             this.MinimumSize = new System.Drawing.Size(800, 500);
@@ -170,7 +169,7 @@ namespace SuperEdit
         private DataGridViewCheckBoxColumn dgvJobSelect;
         private DataGridViewTextBoxColumn dgvJobName;
         private ComboBox comboVal;
-        private Button btnExec;
+        private Button btnReview;
         private ComboBox comboTemp;
         private ComboBox comboType;
         private CheckBox chkAll;

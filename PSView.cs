@@ -30,14 +30,10 @@ namespace SuperEdit
 
         private void btnPsExec_Click(object sender, EventArgs e)
         {
-            try
-            {
-                resController.veeamPSController.DirectExecuteBlock(txtPS.Text);
-                MessageBox.Show("Executed succesfully");
-            } catch (Exception ex)
-            {
-                MessageBox.Show("First Error occured : " + ex.Message);
-            }
+            var prg = new Progress(resController);
+            prg.Show();
+            prg.exec(txtPS.Text);
+            prg.Dispose();
         }
     }
 }
