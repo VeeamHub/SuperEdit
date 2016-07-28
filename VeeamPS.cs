@@ -108,16 +108,26 @@ namespace SuperEdit
         }
         public int AsyncProgress()
         {
-            var vbs = PowerShellInstance.Streams.Verbose.ReadAll();
+            var vbs = PowerShellInstance.Streams.Verbose;
             if (vbs.Count > 0)
             {
-                for (var i = vbs.Count; i > 0; i--)
+                try
                 {
-                    var msg = vbs[i - 1].Message;
-                    if (msg.Length == 11 && msg.Substring(0, 4) == "PROG" && msg.Substring(8, 3) == "PCT")
+                    var vbsm = vbs.ReadAll();
+                    for (var i = vbsm.Count; i > 0; i--)
                     {
-                        return Int32.Parse(msg.Substring(4, 4));
+                        var msg = vbsm[i - 1].Message;
+                        if (msg.Length == 11 && msg.Substring(0, 4) == "PROG" && msg.Substring(8, 3) == "PCT")
+                        {
+                        
+                                var retval = Int32.Parse(msg.Substring(4, 4));
+                                return retval;
+                        }
                     }
+                }
+                catch
+                {
+
                 }
             }
             return -1;
@@ -125,11 +135,19 @@ namespace SuperEdit
         }
         public bool AsyncDone()
         {
-            if (this.asyncInvoke != null)
+            bool done = true;
+
+            switch(this.PowerShellInstance.InvocationStateInfo.State)
             {
-                return this.asyncInvoke.IsCompleted;
+                case PSInvocationState.NotStarted:
+                    done = false;
+                    break;
+                case PSInvocationState.Running:
+                    done = false;
+                    break;
             }
-            return true;
+            return done;
+            
         }
         public void AsyncError()
         {
@@ -146,7 +164,7 @@ namespace SuperEdit
             var sb = new StringBuilder(1024);
             sb.AppendLine("$verbosepreference='continue';function progvb($prog) { write-verbose (\"PROG{0,4}PCT\" -f $prog); }");
             sb.AppendLine("progvb 5");
-            sb.AppendLine("if ( (Get-PSSnapin -Name VeeamPSSnapIn -ErrorAction SilentlyContinue) -eq $null ) { Add-PSSnapin VeeamPSSnapIn;}");
+            sb.AppendLine("Add-PSSnapin VeeamPSSnapIn -ErrorAction SilentlyContinue");
             sb.AppendLine("progvb 10");
             sb.AppendLine("");
             sb.AppendLine("$all = " + ot.Filter);
@@ -176,7 +194,7 @@ namespace SuperEdit
 
 
                     sb.AppendLine(t.Script);
-                    sb.AppendLine("");
+                    
 
                     if ((cstep - emitinterval) >= prevemit)
                     {
@@ -184,6 +202,8 @@ namespace SuperEdit
                         prevemit = cstep;
                     }
                     cstep += stepsize;
+                    sb.AppendLine("");
+
                 }
             }
             sb.AppendLine("progvb 90");

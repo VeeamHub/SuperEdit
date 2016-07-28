@@ -1220,13 +1220,117 @@ $ctr = ($ctr+1)%$alloweddays.Length
     </template>	
 	
 	
+    <!--Storage Level Corruption-->
+    <template name="Storage Level Corruption Guard">
+      <script>
+ <![CDATA[
+$opt = $obj | get-vbrjoboptions
+$opt.GenerationPolicy.EnableRechek = $value
+$obj | set-vbrjoboptions -Options $opt
+ ]]>
+      </script>
+      <values>
+        <value real="1">Enabled</value>
+        <value real="0">Disabled</value>
+      </values>
+    </template>		
 	
+    <!--Defragment-->
+    <template name="Defragment">
+      <script>
+ <![CDATA[
+$opt = $obj | get-vbrjoboptions
+$opt.GenerationPolicy.EnableCompactFull = $value
+$obj | set-vbrjoboptions -Options $opt
+ ]]>
+      </script>
+      <values>
+        <value real="1">Enabled</value>
+        <value real="0">Disabled</value>
+      </values>
+    </template>		
+		
+    <!--Defragment Delete VM-->
+    <template name="Defragment Delete VM">
+      <script>
+ <![CDATA[
+$opt = $obj | get-vbrjoboptions
+if ($value -eq 0) {
+	$opt.BackupStorageOptions.EnableDeletedVmDataRetention = $false
+} ElseIf ($value -gt 0) {
+	$opt.BackupStorageOptions.EnableDeletedVmDataRetention = $true
+	$opt.BackupStorageOptions.RetainDays = $value
+}
+$obj | set-vbrjoboptions -Options $opt
+ ]]>
+      </script>
+      <values>
+	   <!--(1..30) | % { ( "<value real=`"{0}`">Enabled {1}</value>" -f $_,$_) } | clip-->
+        <value real="0">Disabled</value>
+        <value real="1">Enabled 1</value>
+		<value real="2">Enabled 2</value>
+		<value real="3">Enabled 3</value>
+		<value real="4">Enabled 4</value>
+		<value real="5">Enabled 5</value>
+		<value real="6">Enabled 6</value>
+		<value real="7">Enabled 7</value>
+		<value real="8">Enabled 8</value>
+		<value real="9">Enabled 9</value>
+		<value real="10">Enabled 10</value>
+		<value real="11">Enabled 11</value>
+		<value real="12">Enabled 12</value>
+		<value real="13">Enabled 13</value>
+		<value real="14">Enabled 14</value>
+		<value real="15">Enabled 15</value>
+		<value real="16">Enabled 16</value>
+		<value real="17">Enabled 17</value>
+		<value real="18">Enabled 18</value>
+		<value real="19">Enabled 19</value>
+		<value real="20">Enabled 20</value>
+		<value real="21">Enabled 21</value>
+		<value real="22">Enabled 22</value>
+		<value real="23">Enabled 23</value>
+		<value real="24">Enabled 24</value>
+		<value real="25">Enabled 25</value>
+		<value real="26">Enabled 26</value>
+		<value real="27">Enabled 27</value>
+		<value real="28">Enabled 28</value>
+		<value real="29">Enabled 29</value>
+		<value real="30">Enabled 30</value>
+      </values>
+    </template>		
 	
-	
-	
-	
-	
-	
+    <!--Postscript-->
+    <template name="Postscript (Every Run + Name Param)">
+	  <prescript>
+if ($value -ne 0 -and -not $(test-path $value))
+{
+	write-error "Script does not exist, refusing"
+} else {
+	  </prescript>
+      <script>
+ <![CDATA[
+$opt = $obj | get-vbrjoboptions
+if ($value -eq 0) {
+	$opt.JobScriptCommand.PostScriptEnabled = $false
+} Else {
+	$opt.JobScriptCommand.PostScriptCommandLine = $value+" `""+$obj.Name+"`""
+	$opt.JobScriptCommand.PostScriptEnabled= $true
+	$opt.JobScriptCommand.Periodicity = "cycles"
+	$opt.JobScriptCommand.Frequency = 1
+}
+$obj | set-vbrjoboptions -Options $opt
+ ]]>
+      </script>
+	  	<postscript>
+	}
+	</postscript>
+      <values>
+        <value real="0">Disabled</value>
+        <value>c:\myscript\myscript.ps1</value>
+      </values>
+    </template>		
+
 	
   </objectTemplate>  
   

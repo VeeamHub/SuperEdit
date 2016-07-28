@@ -30,6 +30,7 @@ namespace SuperEdit
                 c.AsyncExecute(script);
                 while (!c.AsyncDone())
                 {
+                    
                     var testprog = c.AsyncProgress();
                     if (testprog > 0 && testprog < 100)
                     {
