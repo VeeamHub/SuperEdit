@@ -1,5 +1,6 @@
 # Superedit
-## VeeamHub are community driven projects, and are not created by Veeam R&D nor validated by Veeam Q&A. They are maintained by community members which might be or not be Veeam employees. 
+## VeeamHub
+Veeamhub projects are community driven projects, and are not created by Veeam R&D nor validated by Veeam Q&A. They are maintained by community members which might be or not be Veeam employees. 
 
 ## Distributed under MIT license
 Copyright (c) 2016 VeeamHub
@@ -10,6 +11,8 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+## Project Notes
 
 **Author:** Timothy Dewin
 
@@ -25,11 +28,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 Download the compiled version in nightlybuild. GUI should be straight forward. Execute will just execute the generated powershell code without validation.
 
-![Screenshot Superedit Main](https://github.com/veeamhub/Superedit/img/main.png)
+![Screenshot Superedit Main](https://github.com/VeeamHub/SuperEdit/raw/master/img/main.png)
 
 Review allows you to review the powershell code generated.
 
-![Screenshot Superedit Review](https://github.com/veeamhub/Superedit/img/review.png)
+![Screenshot Superedit Review](https://github.com/VeeamHub/SuperEdit/raw/master/img/review.png)
 
 If you want to contribute in the form of Powershell code, you can push F11. This will extract the embedded Templates.xml. You can edit and restart the application to activate the custom Templates.xml in the working directory.  
 
