@@ -36,6 +36,46 @@ namespace SuperEdit
                 this.VeeamPsLoaded = true;
             }
         }
+        public List<Value> GetDynamicValues(string script)
+        {
+            ResetPs();
+            var ls = new List<Value>();
+            PowerShellInstance.AddScript(script);
+            var PSOutput = PowerShellInstance.Invoke();
+
+            if (PowerShellInstance.Streams.Error.Count > 0)
+            {
+                var err = PowerShellInstance.Streams.Error[0].ToString();
+                System.Console.WriteLine("Err collecting dynamic values : "+err);
+                ls.Add(new Value("Error Collecting", "0"));
+            }
+
+
+            foreach (PSObject outputItem in PSOutput)
+            {
+
+                if (outputItem != null)
+                {
+                    var display = outputItem.Properties["Display"];
+                    var real = outputItem.Properties["Real"];
+
+                    if (display != null)
+                    {
+                        var dstring = display.Value.ToString();
+                        var dreal = dstring;
+
+                        if (real != null)
+                        {
+                            dreal = real.Value.ToString();
+                        }
+                        ls.Add(new Value(dstring,dreal));
+                    }
+                    
+                }
+            }
+
+            return ls;
+        }
         public BindingList<SelectObject> GetObjects(string selectScript, string selectVal)
         {
             ResetPs();

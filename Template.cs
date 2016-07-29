@@ -116,6 +116,9 @@ namespace SuperEdit
 
 
                         var vals = t.SelectNodes("values/value");
+
+                        var dynval = t.SelectSingleNode("dynamicvalue");
+
                         if (vals.Count > 0)
                         {
 
@@ -129,6 +132,14 @@ namespace SuperEdit
                                 var val = new Value(v.InnerText.Trim(), real);
                                 templ.Values.Add(val);
                             }
+                            objt.Templates.Add(templ);
+                        }
+                        else if (dynval != null)
+                        {
+                            //undocumented
+                            //pipeline should return objects with Display (+Real if required)
+                            // | select @{N='Display';E={$_.DisplayName}},@{N="Real";E={$_.Name}}
+                            templ.DynValScript = dynval.InnerText.Trim();
                             objt.Templates.Add(templ);
                         }
 
@@ -165,6 +176,7 @@ namespace SuperEdit
         public string Script { get; set; }
         public string PreScript { get; set; }
         public string PostScript { get; set; }
+        public string DynValScript { get; set; }
         public List<Value> Values { get; set; }
 
         public Template()
@@ -172,8 +184,13 @@ namespace SuperEdit
             Values = new List<Value>();
             this.PostScript = "";
             this.PreScript = "";
+            this.DynValScript = "";
         }
 
+        public bool hasDynamicValues()
+        {
+            return this.DynValScript != "";
+        }
         public override string ToString()
         {
             return this.Name;

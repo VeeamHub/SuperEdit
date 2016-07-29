@@ -137,7 +137,17 @@ namespace SuperEdit
 
         private void comboTemp_SelectedIndexChanged(object sender, EventArgs e)
         {
-            comboVal.DataSource = ((Template)this.comboTemp.SelectedValue).Values;
+            var templ = (Template)this.comboTemp.SelectedValue;
+            
+            if (templ.hasDynamicValues())
+            {
+                comboVal.DataSource = res.veeamPSController.GetDynamicValues(templ.DynValScript);
+            } else
+            {
+                comboVal.DataSource = templ.Values;
+            }
+
+            
         }
 
 
