@@ -352,7 +352,29 @@ $obj | set-vbrjoboptions -Options $opt
       </values>
     </template>		
 
+
+    <!--Detach Current + Change Repo-->
+    <template name="(Unsupported) Detach + Change Repo">
+	  <prescript>
+$repo = get-vbrbackuprepository -name $value
+if (@($repo).Count -eq 1) {
+	  </prescript>
+	  <postscript>
+}
+	  </postscript>
 	
+      <script>
+ <![CDATA[
+try { $obj.GetLastBackup().DetachJob()} catch {}
+$obj.Info.UpdateTargetRepository($repo.id,$obj.TargetFile)
+$obj.Update()
+ ]]>
+      </script>
+	    <dynamicvalue>
+Get-VBRBackupRepository | select @{N="Display";E={($_.Name)}}
+      </dynamicvalue>
+    </template>	
+
   </objectTemplate>  
   
   <objectTemplate name="Backup Jobs Hyperv">
@@ -424,5 +446,112 @@ $obj.SaveOptions()
 
 	
   </objectTemplate>
+
+ <objectTemplate name="VI Proxies">
+    <objectfilter select="Name">
+      <![CDATA[
+ Get-VBRViProxy
+]]>
+    </objectfilter>
+    <template name="Transport Mode">
+      <script>
+        <![CDATA[
+$obj.Options.TransportMode = $value
+$obj.SaveOptions()
+]]>
+      </script>
+	    <dynamicvalue>
+        <![CDATA[
+[Veeam.Backup.Model.ETransportMode] | gm -Static -Type property | select @{N="Display";E={$_.Name}}
+      ]]>
+	  </dynamicvalue>
+ 
+    </template>
+	
+    <template name="Failover to Network Mode">
+      <script>
+        <![CDATA[
+$obj.Options.FailoverToNetwork = $value
+$obj.SaveOptions()
+]]>
+      </script>
+      <values>
+        <value real="1">Enabled</value>
+        <value real="0">Disabled</value>
+      </values>
+
+    </template>
+
+    <template name="Use SSL for NBD">
+      <script>
+        <![CDATA[
+$obj.Options.UseSsl = $value
+$obj.SaveOptions()
+]]>
+      </script>
+      <values>
+        <value real="1">Enabled</value>
+        <value real="0">Disabled</value>
+      </values>
+
+    </template>
+
+    <template name="Max tasks">
+      <script>
+        <![CDATA[
+$obj.Options.MaxTasksCount = $value
+$obj.SaveOptions()
+]]>
+      </script>
+      <values>
+	   <!--(1..40) | % { ( "<value real=`"{0}`">Enabled {1}</value>" -f $_,$_) } | clip-->
+<value real="1">1</value>
+<value real="2">2</value>
+<value real="3">3</value>
+<value real="4">4</value>
+<value real="5">5</value>
+<value real="6">6</value>
+<value real="7">7</value>
+<value real="8">8</value>
+<value real="9">9</value>
+<value real="10">10</value>
+<value real="11">11</value>
+<value real="12">12</value>
+<value real="13">13</value>
+<value real="14">14</value>
+<value real="15">15</value>
+<value real="16">16</value>
+<value real="17">17</value>
+<value real="18">18</value>
+<value real="19">19</value>
+<value real="20">20</value>
+<value real="21">21</value>
+<value real="22">22</value>
+<value real="23">23</value>
+<value real="24">24</value>
+<value real="25">25</value>
+<value real="26">26</value>
+<value real="27">27</value>
+<value real="28">28</value>
+<value real="29">29</value>
+<value real="30">30</value>
+<value real="31">31</value>
+<value real="32">32</value>
+<value real="33">33</value>
+<value real="34">34</value>
+<value real="35">35</value>
+<value real="36">36</value>
+<value real="37">37</value>
+<value real="38">38</value>
+<value real="39">39</value>
+<value real="40">40</value>
+
+      </values>
+
+    </template>
+	
+  </objectTemplate>
+
+
   
 </globalTemplates>
