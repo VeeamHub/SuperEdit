@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Management.Automation;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 namespace SuperEdit
 {
@@ -121,7 +122,10 @@ namespace SuperEdit
         }
         private void dgvJobs_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            thirdstateChkAll();
+            if (e.ColumnIndex == dgvJobSelect.Index)
+            {
+                thirdstateChkAll();
+            }
         }
 
         private void comboType_SelectedIndexChanged(object sender, EventArgs e)
@@ -161,10 +165,137 @@ namespace SuperEdit
                     res.templateController.extractInternal();
                     this.Dispose();
                     break;
-           
+                case Keys.Add:
+                    
+                    if (dgvJobs.SelectedRows.Count == 1)
+                    {
+                        var ind = dgvJobs.SelectedRows[0].Index;
+                        if (ind > 0)
+                        {
+                            
+                            var o = objects[ind];
+                            this.objects.Remove(o);
+                            this.objects.Insert(ind - 1, o);
+                            foreach(DataGridViewRow row in dgvJobs.Rows)
+                            {
+                                if (row.Selected)
+                                {
+                                    row.Selected = false;
+                                }
+                            }
+                            dgvJobs.Rows[ind - 1].Selected = true;
+                            dgvJobs.CurrentCell = dgvJobs.Rows[ind - 1].Cells[0];
+                           
+                        }
+                        
+                    }
+                    break;
+                case Keys.Subtract:
+
+                    if (dgvJobs.SelectedRows.Count == 1)
+                    {
+                        var ind = dgvJobs.SelectedRows[0].Index;
+                        if (ind < (dgvJobs.Rows.Count-1))
+                        {
+
+                            var o = objects[ind];
+                            this.objects.Remove(o);
+                            this.objects.Insert(ind + 1, o);
+                            foreach (DataGridViewRow row in dgvJobs.Rows)
+                            {
+                                if (row.Selected)
+                                {
+                                    row.Selected = false;
+                                }
+                            }
+                            dgvJobs.Rows[ind + 1].Selected = true;
+                            dgvJobs.CurrentCell = dgvJobs.Rows[ind + 1].Cells[0];
+
+                        }
+
+                    }
+                    break;
+                default:
+                    //MessageBox.Show(e.KeyCode.ToString());
+                    break;
             }
         }
 
+        private void ctxTop_Click(object sender, EventArgs e)
+        {
+            var rs = dgvJobs.SelectedRows;
+            var movelist = new List<SelectObject>();
+            
+            //selection is inversed what you should expect
+            //that is ok, we will insert at location 0 so the first ones inserted will be pushed down
+            //store them first in a list not to change the order
+            for(int ri= 0;ri < rs.Count; ri++)
+            {
+                movelist.Add(objects[rs[ri].Index]);     
+            }
+            foreach(var o in movelist)
+            {
+                this.objects.Remove(o);
+                this.objects.Insert(0, o);
+            }
+            
+           
+        }
 
+        private void ctxBottom_Click(object sender, EventArgs e)
+        {
+            var rs = dgvJobs.SelectedRows;
+            var movelist = new List<SelectObject>();
+
+            //selection is inversed what you should expect
+            //that is ok, we will insert at location 0 so the first ones inserted will be pushed down
+            //store them first in a list not to change the order
+            for (int ri = 0; ri < rs.Count; ri++)
+            {
+                movelist.Add(objects[rs[ri].Index]);
+            }
+
+            foreach (var o in movelist)
+            {
+                this.objects.Remove(o);
+                this.objects.Add(o);
+            }
+        }
+
+        private void ctxRegex_Click(object sender, EventArgs e)
+        {
+            InputFormObject ifo = new InputFormObject();
+            var ib = new Inputbox(ifo,"Regex");
+            ib.ShowDialog();
+
+            if (ifo.gotOk)
+            {
+                var rp = ifo.value;
+
+                Regex r = new Regex(rp, RegexOptions.IgnoreCase);
+
+                var removelist = new List<SelectObject>();
+                foreach (var o in objects)
+                {
+                    if (!r.IsMatch(o.name))
+                    {
+                        removelist.Add(o);
+                    }
+                }
+                foreach (var o in removelist)
+                {
+                    objects.Remove(o);
+                }
+            }
+        }
+
+        private void dgvJobs_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.ColumnIndex == dgvJobName.DisplayIndex)
+            {
+                
+            }
+        }
     }
+
 }

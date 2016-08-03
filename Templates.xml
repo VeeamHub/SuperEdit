@@ -239,6 +239,50 @@ $ctr = ($ctr+1)%$alloweddays.Length
 		<value real="3">Saturday, Sunday</value>
       </values>
     </template>	
+
+
+    <!--Staggered-->
+    <template name="Staggered Daily Backup">
+	  <prescript> 
+ <![CDATA[
+$time = 22
+$interval = 5
+$parallel = 1
+$ctr = 0;
+
+
+$split = @($value -split ";")
+if ($split.Count -gt 2) { $parallel = [int]$split[2] }
+if ($split.Count -gt 1) { $interval = [int]$split[1] }
+$time = [int]$split[0]
+
+function hm($ctr,$time,$interval,$parallel) {
+    $ctrp = ($ctr-($ctr%$parallel))/$parallel
+	$min = ($ctrp*$interval)%60
+	$hour = ([int](($ctrp*$interval-$min)/60)+$time)%24
+	return ("{0,2:D2}:{1,2:D2}" -f $hour,$min)
+}
+
+]]> 
+	  </prescript>
+      <script>
+ <![CDATA[
+$obj | Set-VBRJobSchedule -Daily -At $(hm $ctr $time $interval $parallel) | Enable-VBRJobSchedule
+$ctr = $ctr+1
+ ]]>
+      </script>
+      <values>
+		<value real="22;5;1">10pm ; 5m intervals</value>
+		<value real="0;5;1">Midnight ; 5m intervals</value>
+		<value real="22;10;1">10pm ; 10m intervals</value>
+		<value real="0;10;1">Midnight ; 10m intervals</value>
+		
+		<value real="22;5;4">10pm ; 5m intervals ; 4 parallel</value>
+		<value real="0;5;4">Midnight ; 5m intervals ; 4 parallel</value>
+		<value real="22;10;4">10pm ; 10m intervals ; 4 parallel</value>
+		<value real="0;10;4">Midnight ; 10m intervals ; 4 parallel</value>
+      </values>
+    </template>	
 	
 	
     <!--Storage Level Corruption-->

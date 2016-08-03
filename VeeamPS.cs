@@ -85,7 +85,7 @@ namespace SuperEdit
             if (!this.VeeamPsLoaded) {
                 //throw new Exception("Instance not loaded");
 
-                for (int i = 0; i < 5000; i++)
+                for (int i = 0; i < 20; i++)
                 {
                     objects.Add(new SelectObject("job" + i));
                 }
