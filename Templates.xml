@@ -391,6 +391,17 @@ $obj | Set-VBRJobAdvancedStorageOptions -CompressionLevel $value
         <value real="9">Extreme</value>
       </values>
     </template>
+    <!--Disable Indexing-->
+    <template name="Guest File System Indexing">
+      <script><![CDATA[
+$opt = $value + (" """) +$obj.Name + ("""")
+iex $opt
+]]></script>
+      <values>
+        <value real="Enable-VBRJobGuestFSIndexing -Job ">Enabled</value>
+        <value real="Disable-VBRJobGuestFSIndexing -Job ">Disabled</value>
+    </values>
+    </template>
     <!--Restore Points-->
     <template name="Restore Points">
       <script><![CDATA[
