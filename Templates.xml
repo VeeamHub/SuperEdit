@@ -366,6 +366,17 @@ Get-VBRBackupRepository | select @{N="Display";E={($_.Name)}}
     <objectfilter select="Name"><![CDATA[
 get-vbrjob | ? { $_.jobtype -eq "Backup" -and $_.BackupPlatform -eq "EHyperV" }
 ]]></objectfilter>
+	<!--Backup Mode-->
+    <template name="Backup Mode">
+		<script><![CDATA[
+$obj | Set-VBRJobAdvancedBackupOptions -Algorithm $value
+]]></script>
+	<values>
+		<value real="Incremental  -TransformFullToSyntethic $False -EnableFullBackup $False">Forever Forward Incremental</value>
+        <value real="Incremental">Forward Incremental</value>
+        <value real="ReverseIncremental">Reverse Incremental</value>
+    </values>
+    </template>
     <!--Swap File Exclusion-->
     <template name="Swap File Exclusion">
       <script><![CDATA[
@@ -390,6 +401,17 @@ $obj | Set-VBRJobAdvancedStorageOptions -CompressionLevel $value
         <value real="6">High</value>
         <value real="9">Extreme</value>
       </values>
+    </template>
+    <!--Guest Indexing-->
+    <template name="Guest File System Indexing">
+      <script><![CDATA[
+$opt = $value + (" """) +$obj.Name + ("""")
+iex $opt
+]]></script>
+      <values>
+        <value real="Enable-VBRJobGuestFSIndexing -Job ">Enabled</value>
+        <value real="Disable-VBRJobGuestFSIndexing -Job ">Disabled</value>
+    </values>
     </template>
     <!--Restore Points-->
     <template name="Restore Points">
