@@ -39,7 +39,7 @@ get-service | select @{N="Display";E={$_.DisplayName}},@{N="Real";E={$_.Name}}
   </objectTemplate>-->
   <objectTemplate name="Backup Jobs VMware">
     <objectfilter select="Name"><![CDATA[
-get-vbrjob | ? { $_.jobtype -eq "Backup" -and $_.BackupPlatform -eq "EVmware" }
+get-vbrjob | ? { $_.jobtype -eq "Backup" -and $_.SourceType -eq "Vmware" }
 ]]></objectfilter>
     <!--DIRTY BLOCK EXCLUSION-->
     <template name="Dirty block Exclusion">
@@ -364,7 +364,7 @@ Get-VBRBackupRepository | select @{N="Display";E={($_.Name)}}
   </objectTemplate>
   <objectTemplate name="Backup Jobs Hyperv">
     <objectfilter select="Name"><![CDATA[
-get-vbrjob | ? { $_.jobtype -eq "Backup" -and $_.BackupPlatform -eq "EHyperV" }
+get-vbrjob | ? { $_.jobtype -eq "Backup" -and $_.SourceType -eq "HyperV" }
 ]]></objectfilter>
 	<!--Backup Mode-->
     <template name="Backup Mode">
