@@ -1,22 +1,10 @@
-# Superedit
-## VeeamHub
-Veeamhub projects are community driven projects, and are not created by Veeam R&D nor validated by Veeam Q&A. They are maintained by community members which might be or not be Veeam employees. 
-
-## Distributed under MIT license
-Copyright (c) 2016 VeeamHub
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-## Project Notes
+# SuperEdit
 
 **Author:** Timothy Dewin
 
 **Function:** Allowing you to enforce settings on multiple Veeam Objects (e.g. jobs) 
+
+## 📗 Documentation
 
 **Requires:** Backup & Replication v9 (As per veeampssnapin, needs to be run on the backup server as Administrator. If you don't run as administrator, you might get an empty view)
 
@@ -24,7 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 **How it works:** It is a basically a small csharp GUI wrapper around predefined powershell script, with the possibility to select indiviual objects. This allows unexperienced powershell users to mass edit settings without knowing any powershell code.
 
-**Usage:** 
+**Usage:**
 
 Download the compiled version in nightlybuild. GUI should be straight forward. Execute will just execute the generated powershell code without validation.
 
@@ -71,3 +59,15 @@ $obj | set-vbrjoboptions -Options $opt
     </template>
   </objectTemplate>
 ```
+
+## ✍ Contributions
+
+We welcome contributions from the community! We encourage you to create [issues](https://github.com/VeeamHub/SuperEdit/issues/new/choose) for Bugs & Feature Requests and submit Pull Requests for improving our documentation. For more detailed information, refer to our [Contributing Guide](CONTRIBUTING.md).
+
+## 🤝🏾 License
+
+* [MIT License](LICENSE)
+
+## 🤔 Questions
+
+If you have any questions or something is unclear, please don't hesitate to [create an issue](https://github.com/VeeamHub/SuperEdit/issues/new/choose) and let us know!
